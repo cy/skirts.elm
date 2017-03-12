@@ -1,14 +1,15 @@
-var _user$project$Main$bandWidth = 2 + (1 / 4);
 var _user$project$Main$ease = 5 / 8;
 var _user$project$Main$hemWidth = 1 / 2;
 var _user$project$Main$seamAllowance = 5 / 8;
 var _user$project$Main$calculateSkirt = function (model) {
 	var waistBandLength = ((model.waist / 2) + _user$project$Main$seamAllowance) + _user$project$Main$ease;
-	var waistBandWidth = _user$project$Main$bandWidth + (2 * _user$project$Main$seamAllowance);
+	var waistBandWidth = model.bandWidth + (2 * _user$project$Main$seamAllowance);
 	var backWidth = (model.hip / 2) + (2 * _user$project$Main$seamAllowance);
 	var frontLength = (model.length + _user$project$Main$seamAllowance) + (2 * _user$project$Main$hemWidth);
 	var backLength = frontLength;
+	var backYardage = (backWidth * backLength) * 2;
 	var frontWidth = (model.hip / 2) + _user$project$Main$seamAllowance;
+	var frontYardage = (frontWidth * frontLength) * 2;
 	return A2(
 		_elm_lang$html$Html$ul,
 		{ctor: '[]'},
@@ -20,7 +21,10 @@ var _user$project$Main$calculateSkirt = function (model) {
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html$text(
-						_elm_lang$core$Basics$toString(frontWidth)),
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							'Front Width ',
+							_elm_lang$core$Basics$toString(frontWidth))),
 					_1: {ctor: '[]'}
 				}),
 			_1: {
@@ -31,7 +35,10 @@ var _user$project$Main$calculateSkirt = function (model) {
 					{
 						ctor: '::',
 						_0: _elm_lang$html$Html$text(
-							_elm_lang$core$Basics$toString(frontLength)),
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								'Front Length ',
+								_elm_lang$core$Basics$toString(frontLength))),
 						_1: {ctor: '[]'}
 					}),
 				_1: {
@@ -42,7 +49,10 @@ var _user$project$Main$calculateSkirt = function (model) {
 						{
 							ctor: '::',
 							_0: _elm_lang$html$Html$text(
-								_elm_lang$core$Basics$toString(backWidth)),
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									'Back Width ',
+									_elm_lang$core$Basics$toString(backWidth))),
 							_1: {ctor: '[]'}
 						}),
 					_1: {
@@ -53,7 +63,10 @@ var _user$project$Main$calculateSkirt = function (model) {
 							{
 								ctor: '::',
 								_0: _elm_lang$html$Html$text(
-									_elm_lang$core$Basics$toString(backLength)),
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										'Back Length ',
+										_elm_lang$core$Basics$toString(backLength))),
 								_1: {ctor: '[]'}
 							}),
 						_1: {
@@ -64,7 +77,10 @@ var _user$project$Main$calculateSkirt = function (model) {
 								{
 									ctor: '::',
 									_0: _elm_lang$html$Html$text(
-										_elm_lang$core$Basics$toString(waistBandWidth)),
+										A2(
+											_elm_lang$core$Basics_ops['++'],
+											'Waistband Width ',
+											_elm_lang$core$Basics$toString(waistBandWidth))),
 									_1: {ctor: '[]'}
 								}),
 							_1: {
@@ -75,12 +91,98 @@ var _user$project$Main$calculateSkirt = function (model) {
 									{
 										ctor: '::',
 										_0: _elm_lang$html$Html$text(
-											_elm_lang$core$Basics$toString(waistBandLength)),
+											A2(
+												_elm_lang$core$Basics_ops['++'],
+												'Waistband Length ',
+												_elm_lang$core$Basics$toString(waistBandLength))),
 										_1: {ctor: '[]'}
 									}),
 								_1: {ctor: '[]'}
 							}
 						}
+					}
+				}
+			}
+		});
+};
+var _user$project$Main$inputStyle = {
+	ctor: '::',
+	_0: {ctor: '_Tuple2', _0: 'width', _1: '60px'},
+	_1: {
+		ctor: '::',
+		_0: {ctor: '_Tuple2', _0: 'margin', _1: '0 5px 0 5px'},
+		_1: {
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'border-radius', _1: '5px 5px 5px 5px'},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 'border', _1: '1px solid #ccc'},
+				_1: {
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'font-family', _1: 'Courgette'},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'color', _1: '#a0a0a0'},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'padding-right', _1: '2px'},
+							_1: {ctor: '[]'}
+						}
+					}
+				}
+			}
+		}
+	}
+};
+var _user$project$Main$withStyle = function (html) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A3(
+				_elm_lang$html$Html$node,
+				'style',
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$type_('text/css'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('@import url(https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css)'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A3(
+					_elm_lang$html$Html$node,
+					'style',
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$type_('text/css'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('@import url(http://localhost:8000/styles.css)'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A3(
+						_elm_lang$html$Html$node,
+						'style',
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('@import url(https://fonts.googleapis.com/css?family=Indie+Flower|Courgette)'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: html,
+						_1: {ctor: '[]'}
 					}
 				}
 			}
@@ -109,19 +211,28 @@ var _user$project$Main$update = F2(
 					{
 						hip: _user$project$Main$safeToFloat(_p1._0)
 					});
-			default:
+			case 'Length':
 				return _elm_lang$core$Native_Utils.update(
 					model,
 					{
 						length: _user$project$Main$safeToFloat(_p1._0)
 					});
+			default:
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						bandWidth: _user$project$Main$safeToFloat(_p1._0)
+					});
 		}
 	});
-var _user$project$Main$Model = F3(
-	function (a, b, c) {
-		return {waist: a, hip: b, length: c};
+var _user$project$Main$Model = F4(
+	function (a, b, c, d) {
+		return {waist: a, hip: b, length: c, bandWidth: d};
 	});
-var _user$project$Main$model = A3(_user$project$Main$Model, 27.5, 34.5, 0);
+var _user$project$Main$model = A4(_user$project$Main$Model, 27.5, 34.5, 19, 2 + (1 / 4));
+var _user$project$Main$BandWidth = function (a) {
+	return {ctor: 'BandWidth', _0: a};
+};
 var _user$project$Main$Length = function (a) {
 	return {ctor: 'Length', _0: a};
 };
@@ -132,98 +243,246 @@ var _user$project$Main$Waist = function (a) {
 	return {ctor: 'Waist', _0: a};
 };
 var _user$project$Main$view = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$input,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$type_('number'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$step('0.25'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$placeholder('Waist'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$defaultValue(
-									_elm_lang$core$Basics$toString(model.waist)),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$Waist),
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					}
-				},
-				{ctor: '[]'}),
-			_1: {
+	return _user$project$Main$withStyle(
+		A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$input,
+					_elm_lang$html$Html$h1,
+					{ctor: '[]'},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$type_('number'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$step('0.25'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$placeholder('Hip'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$defaultValue(
-										_elm_lang$core$Basics$toString(model.hip)),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$Hip),
-										_1: {ctor: '[]'}
-									}
-								}
-							}
-						}
-					},
-					{ctor: '[]'}),
+						_0: _elm_lang$html$Html$text('skirts.🌳'),
+						_1: {ctor: '[]'}
+					}),
 				_1: {
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$input,
+						_elm_lang$html$Html$h2,
+						{ctor: '[]'},
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$type_('number'),
-							_1: {
+							_0: _elm_lang$html$Html$text('✨ Clemence Gathered Skirt'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$label,
+							{ctor: '[]'},
+							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$step('0.25'),
-								_1: {
+								_0: _elm_lang$html$Html$text('Waist'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$input,
+								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$placeholder('Length'),
+									_0: _elm_lang$html$Html_Attributes$type_('number'),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$defaultValue(
-											_elm_lang$core$Basics$toString(model.length)),
+										_0: _elm_lang$html$Html_Attributes$step('0.25'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$Length),
+											_0: _elm_lang$html$Html_Attributes$placeholder('Waist'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$size(4),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$style(_user$project$Main$inputStyle),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$defaultValue(
+															_elm_lang$core$Basics$toString(model.waist)),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$Waist),
+															_1: {ctor: '[]'}
+														}
+													}
+												}
+											}
+										}
+									}
+								},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$br,
+									{ctor: '[]'},
+									{ctor: '[]'}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$label,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('Hip'),
 											_1: {ctor: '[]'}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$input,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$type_('number'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$step('0.25'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$placeholder('Hip'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$size(4),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$style(_user$project$Main$inputStyle),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$defaultValue(
+																		_elm_lang$core$Basics$toString(model.hip)),
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$Hip),
+																		_1: {ctor: '[]'}
+																	}
+																}
+															}
+														}
+													}
+												}
+											},
+											{ctor: '[]'}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$br,
+												{ctor: '[]'},
+												{ctor: '[]'}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$label,
+													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html$text('Waist to Hem Length'),
+														_1: {ctor: '[]'}
+													}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$input,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$type_('number'),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$step('0.25'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$placeholder('Length'),
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$size(4),
+																		_1: {
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$style(_user$project$Main$inputStyle),
+																			_1: {
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$defaultValue(
+																					_elm_lang$core$Basics$toString(model.length)),
+																				_1: {
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$Length),
+																					_1: {ctor: '[]'}
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														},
+														{ctor: '[]'}),
+													_1: {
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$br,
+															{ctor: '[]'},
+															{ctor: '[]'}),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$label,
+																{ctor: '[]'},
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html$text('Waistband Width'),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$input,
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$type_('number'),
+																		_1: {
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$step('0.25'),
+																			_1: {
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$placeholder('Length'),
+																				_1: {
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Attributes$size(4),
+																					_1: {
+																						ctor: '::',
+																						_0: _elm_lang$html$Html_Attributes$style(_user$project$Main$inputStyle),
+																						_1: {
+																							ctor: '::',
+																							_0: _elm_lang$html$Html_Attributes$defaultValue(
+																								_elm_lang$core$Basics$toString(model.bandWidth)),
+																							_1: {
+																								ctor: '::',
+																								_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$BandWidth),
+																								_1: {ctor: '[]'}
+																							}
+																						}
+																					}
+																				}
+																			}
+																		}
+																	},
+																	{ctor: '[]'}),
+																_1: {
+																	ctor: '::',
+																	_0: _user$project$Main$calculateSkirt(model),
+																	_1: {ctor: '[]'}
+																}
+															}
+														}
+													}
+												}
+											}
 										}
 									}
 								}
 							}
-						},
-						{ctor: '[]'}),
-					_1: {
-						ctor: '::',
-						_0: _user$project$Main$calculateSkirt(model),
-						_1: {ctor: '[]'}
+						}
 					}
 				}
-			}
-		});
+			}));
 };
 var _user$project$Main$main = _elm_lang$html$Html$beginnerProgram(
 	{model: _user$project$Main$model, view: _user$project$Main$view, update: _user$project$Main$update})();

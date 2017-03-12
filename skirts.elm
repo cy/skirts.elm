@@ -19,12 +19,13 @@ type alias Model =
   { waist : Float
   , hip: Float
   , length: Float
+  , bandWidth: Float
   }
 
 
 model : Model
 model =
-  Model 27.5 34.5 0
+  Model 27.5 34.5 19 (2 + (1 / 4))
 
 
 
@@ -35,6 +36,7 @@ type Msg
     = Waist String
     | Hip String
     | Length String
+    | BandWidth String
 
 
 update : Msg -> Model -> Model
@@ -49,25 +51,51 @@ update msg model =
     Length length ->
       { model | length = safeToFloat length }
 
+    BandWidth bandWidth ->
+      { model | bandWidth = safeToFloat bandWidth }
 
 
 -- VIEW
 
+withStyle html =
+  div []
+  [ node "style" [type_ "text/css"] [text "@import url(https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css)"]
+  , node "style" [type_ "text/css"] [text "@import url(http://localhost:8000/styles.css)"]
+  , node "style" [] [text "@import url(https://fonts.googleapis.com/css?family=Indie+Flower|Courgette)"]
+  , html
+  ]
 
+inputStyle = [ ("width", "60px")
+  , ("margin", "0 5px 0 5px")
+  , ("border-radius", "5px 5px 5px 5px")
+  , ("border", "1px solid #ccc")
+  , ("font-family", "Courgette")
+  , ("color", "#a0a0a0")
+  , ("padding-right", "2px")
+  ]
 view : Model -> Html Msg
 view model =
   div []
-    [ input [ type_ "number", step "0.25", placeholder "Waist", defaultValue (toString model.waist), onInput Waist ] []
-    , input [ type_ "number", step "0.25", placeholder "Hip", defaultValue (toString model.hip), onInput Hip ] []
-    , input [ type_ "number", step "0.25", placeholder "Length", defaultValue (toString model.length), onInput Length ] []
+    [ h1 [] [ text "skirts.🌳"]
+    , h2 [] [ text "✨ Clemence Gathered Skirt"]
+    , label [] [ text "Waist" ]
+    , input [ type_ "number", step "0.25", placeholder "Waist", size 4, style inputStyle, defaultValue (toString model.waist), onInput Waist ] []
+    , br [] []
+    , label [] [ text "Hip" ]
+    , input [ type_ "number", step "0.25", placeholder "Hip", size 4, style inputStyle, defaultValue (toString model.hip), onInput Hip ] []
+    , br [] []
+    , label [] [ text "Waist to Hem Length"]
+    , input [ type_ "number", step "0.25", placeholder "Length", size 4, style inputStyle, defaultValue (toString model.length), onInput Length ] []
+    , br [] []
+    , label [] [ text "Waistband Width"]
+    , input [ type_ "number", step "0.25", placeholder "Length", size 4, style inputStyle, defaultValue (toString model.bandWidth), onInput BandWidth ] []
     , calculateSkirt model
     ]
-
+  |> withStyle
 
 seamAllowance = 5 / 8
 hemWidth = 1 / 2
 ease = 5 / 8
-bandWidth = 2 + (1 / 4)
 calculateSkirt: Model -> Html measurements
 calculateSkirt model =
   let
@@ -75,14 +103,16 @@ calculateSkirt model =
     frontLength = model.length + seamAllowance + (2 * hemWidth)
     backWidth = (model.hip / 2) + 2 * seamAllowance
     backLength = frontLength
-    waistBandWidth = (bandWidth) + 2 * seamAllowance
+    waistBandWidth = (model.bandWidth) + 2 * seamAllowance
     waistBandLength = (model.waist / 2) + seamAllowance + ease
+    frontYardage = frontWidth * frontLength * 2
+    backYardage = backWidth * backLength * 2
   in
     ul [] [
-      li [] [ text (toString frontWidth) ]
-    , li [] [ text (toString frontLength) ]
-    , li [] [ text (toString backWidth) ]
-    , li [] [ text (toString backLength) ]
-    , li [] [ text (toString waistBandWidth) ]
-    , li [] [ text (toString waistBandLength) ]
+      li [] [ text ("Front Width " ++ (toString frontWidth)) ]
+    , li [] [ text ("Front Length " ++ toString frontLength) ]
+    , li [] [ text ("Back Width " ++ toString backWidth) ]
+    , li [] [ text ("Back Length " ++ toString backLength) ]
+    , li [] [ text ("Waistband Width " ++ toString waistBandWidth) ]
+    , li [] [ text ("Waistband Length " ++ toString waistBandLength) ]
   ]
