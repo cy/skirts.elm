@@ -31,6 +31,13 @@ model =
 
 -- UPDATE
 safeToFloat = String.toFloat >> Result.toMaybe >> Maybe.withDefault 0
+safeToInt = String.toInt >> Result.toMaybe >> Maybe.withDefault 0
+
+maybeToInt : Maybe Int -> Int
+maybeToInt m =
+  case m of
+    Just i -> i
+    Nothing -> 0
 
 type Msg
     = Waist String
@@ -60,8 +67,8 @@ update msg model =
 withStyle html =
   div []
   [ node "style" [type_ "text/css"] [text "@import url(https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css)"]
-  , node "style" [type_ "text/css"] [text "@import url(http://localhost:8000/styles.css)"]
-  , node "style" [] [text "@import url(https://fonts.googleapis.com/css?family=Indie+Flower|Courgette)"]
+  --, node "style" [type_ "text/css"] [text "@import url(http://localhost:8000/styles.css)"]
+  --, node "style" [] [text "@import url(https://fonts.googleapis.com/css?family=Indie+Flower|Courgette)"]
   , html
   ]
 
@@ -70,7 +77,6 @@ inputStyle = [ ("width", "60px")
   , ("border-radius", "5px 5px 5px 5px")
   , ("border", "1px solid #ccc")
   , ("font-family", "Courgette")
-  , ("color", "#a0a0a0")
   , ("padding-right", "2px")
   ]
 view : Model -> Html Msg
@@ -93,6 +99,19 @@ view model =
     ]
   |> withStyle
 
+toNearestEighth: Float -> String
+toNearestEighth input =
+  let
+    inputString = toString input
+    dotIndices = String.indices "." inputString
+    firstIndex = List.head dotIndices
+    decimalString = String.slice (maybeToInt firstIndex) (String.length inputString) inputString
+    decimal = safeToFloat decimalString
+    wholeNumberString = String.slice 0 (maybeToInt firstIndex) inputString
+    nearestEigth = ceiling(decimal * 8)
+  in
+    wholeNumberString ++ " " ++ toString nearestEigth ++ "/8"
+
 seamAllowance = 5 / 8
 hemWidth = 1 / 2
 ease = 5 / 8
@@ -109,10 +128,10 @@ calculateSkirt model =
     backYardage = backWidth * backLength * 2
   in
     ul [] [
-      li [] [ text ("Front Width " ++ (toString frontWidth)) ]
-    , li [] [ text ("Front Length " ++ toString frontLength) ]
-    , li [] [ text ("Back Width " ++ toString backWidth) ]
-    , li [] [ text ("Back Length " ++ toString backLength) ]
-    , li [] [ text ("Waistband Width " ++ toString waistBandWidth) ]
-    , li [] [ text ("Waistband Length " ++ toString waistBandLength) ]
+      li [] [ text ("Front Width " ++ (toString frontWidth) ++ (" (" ++ toNearestEighth frontWidth ++ ")")) ]
+    , li [] [ text ("Front Length " ++ (toString frontLength) ++ (" (" ++ toNearestEighth frontLength ++ ")")) ]
+    , li [] [ text ("Back Width " ++ (toString backWidth) ++ (" (" ++ toNearestEighth backWidth ++ ")")) ]
+    , li [] [ text ("Back Length " ++ (toString backLength) ++ (" (" ++ toNearestEighth backLength ++ ")")) ]
+    , li [] [ text ("Waistband Width " ++ (toString waistBandWidth) ++ (" (" ++ toNearestEighth waistBandWidth ++ ")")) ]
+    , li [] [ text ("Waistband Length " ++ (toString waistBandLength) ++ (" (" ++ toNearestEighth waistBandLength ++ ")")) ]
   ]
