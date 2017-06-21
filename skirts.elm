@@ -83,7 +83,7 @@ view : Model -> Html Msg
 view model =
   div []
     [ h1 [] [ text "skirts.🌳"]
-    , h2 [] [ text "✨ Clemence Gathered Skirt"]
+    , h2 [] [ text "✨ Gathered Skirt (inches)"]
     , label [] [ text "Waist" ]
     , input [ type_ "number", step "0.25", placeholder "Waist", size 4, style inputStyle, defaultValue (toString model.waist), onInput Waist ] []
     , br [] []
@@ -99,18 +99,31 @@ view model =
     ]
   |> withStyle
 
+
+getEighths : Float -> Int
+getEighths n =
+  round (n * 8) % 8
+
 toNearestEighth: Float -> String
-toNearestEighth input =
+toNearestEighth n =
   let
-    inputString = toString input
-    dotIndices = String.indices "." inputString
-    firstIndex = List.head dotIndices
-    decimalString = String.slice (maybeToInt firstIndex) (String.length inputString) inputString
-    decimal = safeToFloat decimalString
-    wholeNumberString = String.slice 0 (maybeToInt firstIndex) inputString
-    nearestEigth = ceiling(decimal * 8)
+      floored = floor n
+      eigth = getEighths n
   in
-    wholeNumberString ++ " " ++ toString nearestEigth ++ "/8"
+      if eigth == 0 then
+        toString floored
+      else
+        toString floored ++ " " ++ toString eigth ++ "/8"
+  --let
+    --inputString = toString input
+    --dotIndices = String.indices "." inputString
+    --firstIndex = List.head dotIndices
+    --decimalString = String.slice (maybeToInt firstIndex) (String.length inputString) inputString
+    --decimal = safeToFloat decimalString
+    --wholeNumberString = String.slice 0 (maybeToInt firstIndex) inputString
+    --nearestEigth = ceiling(decimal * 8)
+  --in
+    --wholeNumberString ++ " " ++ toString nearestEigth ++ "/8"
 
 seamAllowance = 5 / 8
 hemWidth = 1 / 2
